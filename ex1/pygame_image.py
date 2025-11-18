@@ -25,17 +25,25 @@ def main():
         screen.blit(bg_img, [-x+3200, 0]) # 練習9
 
          # 練習10
+        scroll_speed = -1
+        dx, dy = 0, 0
         key_lst = pg.key.get_pressed()
+        # 何もキーを押してない → 背景と同じ速度で右へ
+        if not any([key_lst[pg.K_UP], key_lst[pg.K_DOWN], key_lst[pg.K_LEFT], key_lst[pg.K_RIGHT]]):
+            dx += scroll_speed
+
+        # キー入力に応じて加算
         if key_lst[pg.K_UP]:
-            kk_rct.move_ip((0, -1))
+            dy -= 1
         if key_lst[pg.K_DOWN]:
-            kk_rct.move_ip((0, +1))
+            dy += 1
         if key_lst[pg.K_LEFT]:
-            kk_rct.move_ip((-1, 0))
+            dx -= 2
         if key_lst[pg.K_RIGHT]:
-            kk_rct.move_ip((+1, 0))
-        else:
-            kk_rct.move_ip((-1, 0))#演習問1
+            dx += 1  # 右は加速したければここ
+
+        # --- move_ip を 1回だけ実行 ---
+        kk_rct.move_ip(dx, dy)#演習問1
         screen.blit(kk_img, kk_rct) # 練習4 -> 10
         pg.display.update()
         tmr += 1
